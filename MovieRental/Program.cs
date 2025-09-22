@@ -1,6 +1,7 @@
 using MovieRental.Data;
 using MovieRental.Movie;
 using MovieRental.Rental;
+using MovieRental.PaymentProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkSqlite().AddDbContext<MovieRentalDbContext>();
 
 builder.Services.AddScoped<IRentalFeatures, RentalFeatures>();
+builder.Services.AddTransient<IPaymentProvider, PayPalProvider>();
+builder.Services.AddTransient<IPaymentProvider, MbWayProvider>();
+
+builder.Services.AddSingleton<PaymentProviderFactory>();
 
 var app = builder.Build();
 
