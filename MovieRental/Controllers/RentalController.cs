@@ -24,5 +24,18 @@ namespace MovieRental.Controllers
             return Ok(savedRental);
         }
 
+
+        [HttpGet("customer/{customerName}")]
+        public async Task<IActionResult> GetRentalsByCustomer(string customerName)
+        {
+            var rentals = await _features.GetRentalsByCustomerNameAsync(customerName);
+
+            if (rentals == null || !rentals.Any())
+            {
+                return NotFound($"No rentals found for customer: {customerName}");
+            }
+
+            return Ok(rentals);
+        }
     }
 }
